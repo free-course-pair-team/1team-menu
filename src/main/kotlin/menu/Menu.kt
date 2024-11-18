@@ -1,18 +1,51 @@
 package menu
 
+import camp.nextstep.edu.missionutils.Randoms
+import menu.FoodCategory.*
+
 class Menu(
     private val inputView: InputView = InputView(),
-    private val outputVuew: OutputView = OutputView(),
+    private val outputView: OutputView = OutputView(),
     private val category: Category = Category()
 ) {
 
     fun start() {
-        outputVuew.lunchRecommendMessage()
+        outputView.lunchRecommendMessage()
         val coachesName = inputView.readCoachNames()
         validateCoachesName(coachesName)
         val coaches = getCoaches(coachesName)
         val weekFoodRecommend = getWeekFoodRecommend()
+        getRecommendFood(weekFoodRecommend, coaches)
+        printRecommendMenu(weekFoodRecommend, coaches)
+    }
 
+    private fun printRecommendMenu(
+        weekFoodRecommend: List<FoodCategory>,
+        coaches: List<Coach>
+    ) {
+        outputView.menuRecommendMessage()
+        outputView.printWeekend()
+        outputView.printCategory(weekFoodRecommend.map { it.type })
+        outputView.printFoodByCoaches(coaches)
+        outputView.completeRecommendMessage()
+    }
+
+    private fun getRecommendFood(weekFoodRecommend: List<FoodCategory>, coaches: List<Coach>) {
+        weekFoodRecommend.forEach { foodCategory ->
+            coaches.forEach { coach ->
+                recommendFood(foodCategory, coach)
+            }
+        }
+    }
+
+    private fun recommendFood(foodCategory: FoodCategory, coach: Coach) {
+        while (true) {
+            val recommendedFood = getFoodByCountry(foodCategory)
+            if (!coach.hasRecommendedFood(recommendedFood) && !coach.hasAvoidFood(recommendedFood)) {
+                coach.addRecommendedFood(recommendedFood)
+                return
+            }
+        }
     }
 
     private fun validateCoachesName(names: List<String>) {
@@ -42,4 +75,15 @@ class Menu(
         }
         return weekFoodRecommend
     }
+
+    private fun getFoodByCountry(foodCategory: FoodCategory): String {
+        return when(foodCategory) {
+            JAPANESE_FOOD -> Randoms.shuffle(foodCategory.foods)[0]
+            KOREAN_FOOD -> Randoms.shuffle(foodCategory.foods)[0]
+            CHINESE_FOOD -> Randoms.shuffle(foodCategory.foods)[0]
+            ASIAN_FOOD -> Randoms.shuffle(foodCategory.foods)[0]
+            WESTERN_FOOD -> Randoms.shuffle(foodCategory.foods)[0]
+        }
+    }
+
 }

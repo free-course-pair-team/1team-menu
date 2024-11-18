@@ -14,5 +14,4 @@ class InputView {
         return Console.readLine().split(",")
     }
 
-//    fun read
 }
