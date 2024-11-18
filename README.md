@@ -198,3 +198,4 @@ val menu: String = Randoms.shuffle(menus)[0]
 - 과제 진행 및 제출 방법은 [프리코스 과제 제출](https://github.com/woowacourse/woowacourse-docs/tree/master/precourse) 문서를 참고한다.
   - 소감문은 간소하게 입력해도 된다. 예를 들어, "."만 입력해도 된다.
 
+---
