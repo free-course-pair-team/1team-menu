@@ -1,9 +1,5 @@
 package menu
 
-//- [ ] 코치 이름 입력
-//  - [ ] 이름은 최소 2글자 최대 4글자
-//  - [ ] 인원은 2명에서 5명
-
 class Menu(
     private val inputView: InputView = InputView(),
     private val outputVuew: OutputView = OutputView()
