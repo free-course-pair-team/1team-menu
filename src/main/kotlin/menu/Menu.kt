@@ -7,8 +7,9 @@ class Menu(
 
     fun start() {
         outputVuew.lunchRecommendMessage()
-        val coaches = inputView.readCoachNames()
-        validateCoachesName(coaches)
+        val coachesName = inputView.readCoachNames()
+        validateCoachesName(coachesName)
+        val coaches = getCoaches(coachesName)
     }
 
     private fun validateCoachesName(names: List<String>) {
@@ -16,5 +17,9 @@ class Menu(
         names.forEach { name ->
             require(name.length >= 2 || name.length <= 4) { "[ERROR] 코치 이름은 최소 2 글자 최대 4글자 입력해야 합니다." }
         }
+    }
+
+    private fun getCoaches(coachesName: List<String>) = coachesName.map { name ->
+        Coach(name, inputView.readCoachAvoidFoods(name))
     }
 }
