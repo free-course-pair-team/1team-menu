@@ -12,5 +12,4 @@ class MenuController {
         return inputView.inputCoachName().split(",")
     }
 
-
 }
