@@ -9,6 +9,11 @@ class InputView {
         return Console.readLine()
     }
 
+    fun inputNotEatMenu(coachName: String): String {
+        println(PRINT_INPUT_NOT_EAT_MENU)
+        return Console.readLine()
+    }
+
 
     companion object {
         private const val PRINT_INPUT_COACH_NAME = "코치의 이름을 입력해 주세요. (, 로 구분)"
