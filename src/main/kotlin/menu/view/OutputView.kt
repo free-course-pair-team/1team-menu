@@ -9,6 +9,6 @@ class OutputView {
 
 
     companion object {
-        const val PRINT_SERVICE_MESSAGE = "점심 메뉴 추천을 시작합니다."
+        private const val PRINT_SERVICE_MESSAGE = "점심 메뉴 추천을 시작합니다."
     }
 }
