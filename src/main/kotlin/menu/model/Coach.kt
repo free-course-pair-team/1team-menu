@@ -2,7 +2,6 @@ package menu.model
 
 class Coach(private val name: String) {
 
-
     private var hateMenus = mutableListOf<String>()
 
     init {
@@ -19,7 +18,7 @@ class Coach(private val name: String) {
 
     fun setHateMenu(hateMenu: List<String>) {
         validateMenus(hateMenu)
-        hateMenu.forEach { hateMenus.add(it) }
+        hateMenu.forEach { hateMenus.add(it.trim()) }
     }
 
     private fun validateMenus(hateMenu: List<String>) {
@@ -29,8 +28,8 @@ class Coach(private val name: String) {
         require(hateMenu.size <= 2) {
             "[ERROR] 메뉴는 2개까지 입력 가능합니다."
         }
-        TODO("기존 음식에 해당하는 지 확인")
-
+        // TODO("기존 음식에 해당하는 지 확인")
     }
+
 
 }

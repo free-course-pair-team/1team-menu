@@ -10,7 +10,7 @@ class InputView {
     }
 
     fun inputNotEatMenu(coachName: String): String {
-        println(PRINT_INPUT_NOT_EAT_MENU)
+        println(coachName + PRINT_INPUT_NOT_EAT_MENU)
         return Console.readLine()
     }
 
