@@ -8,11 +8,13 @@ class Menu(
     private val outputView: OutputView = OutputView(),
     private val category: Category = Category()
 ) {
-
     fun start() {
         outputView.lunchRecommendMessage()
-        val coachesName = inputView.readCoachNames()
-        validateCoachesName(coachesName)
+        val coachesName = retryInput {
+            val coachesInput = inputView.readCoachNames()
+            validateCoachesName(coachesInput)
+            coachesInput
+        }
         val coaches = getCoaches(coachesName)
         val weekFoodRecommend = getWeekFoodRecommend()
         getRecommendFood(weekFoodRecommend, coaches)
@@ -49,16 +51,18 @@ class Menu(
     }
 
     private fun validateCoachesName(names: List<String>) {
-        require(names.size >= 2 || names.size <= 5) { "[ERROR] 코치는 최소 2명 최대 5명으로 입력해야 합니다." }
+        require(names.size in 2..5) { "[ERROR] 코치는 최소 2명 최대 5명으로 입력해야 합니다." }
         names.forEach { name ->
-            require(name.length >= 2 || name.length <= 4) { "[ERROR] 코치 이름은 최소 2 글자 최대 4글자 입력해야 합니다." }
+            require(name.length in 2..4) { "[ERROR] 코치 이름은 최소 2 글자 최대 4글자 입력해야 합니다." }
         }
     }
 
     private fun getCoaches(coachesName: List<String>) = coachesName.map { name ->
-        val avoidFoods = inputView.readCoachAvoidFoods(name)
-        validateAvoidFoods(avoidFoods)
-        Coach(name, avoidFoods)
+        retryInput {
+            val avoidFoods = inputView.readCoachAvoidFoods(name)
+            validateAvoidFoods(avoidFoods)
+            Coach(name, avoidFoods)
+        }
     }
 
     private fun validateAvoidFoods(avoidFoods: List<String>) {
@@ -77,7 +81,7 @@ class Menu(
     }
 
     private fun getFoodByCountry(foodCategory: FoodCategory): String {
-        return when(foodCategory) {
+        return when (foodCategory) {
             JAPANESE_FOOD -> Randoms.shuffle(foodCategory.foods)[0]
             KOREAN_FOOD -> Randoms.shuffle(foodCategory.foods)[0]
             CHINESE_FOOD -> Randoms.shuffle(foodCategory.foods)[0]
@@ -85,5 +89,4 @@ class Menu(
             WESTERN_FOOD -> Randoms.shuffle(foodCategory.foods)[0]
         }
     }
-
 }
