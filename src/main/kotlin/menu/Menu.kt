@@ -51,9 +51,9 @@ class Menu(
     }
 
     private fun validateCoachesName(names: List<String>) {
-        require(names.size in MIN_COACH_COUNT..MAX_COACH_COUNT) { "[ERROR] 코치는 최소 2명 최대 5명으로 입력해야 합니다." }
+        require(names.size in MIN_COACH_COUNT..MAX_COACH_COUNT) { Error.COACH_COUNT.getMessage() }
         names.forEach { name ->
-            require(name.length in MIN_COACH_NAME_LENGTH..MAX_COACH_NAME_LENGTH) { "[ERROR] 코치 이름은 최소 2 글자 최대 4글자 입력해야 합니다." }
+            require(name.length in MIN_COACH_NAME_LENGTH..MAX_COACH_NAME_LENGTH) { Error.COACH_NAME_LENGTH.getMessage() }
         }
     }
 
@@ -66,7 +66,7 @@ class Menu(
     }
 
     private fun validateAvoidFoods(avoidFoods: List<String>) {
-        require(avoidFoods.size >= MIN_AVOID_FOODS_COUNT || avoidFoods.size <= MAX_AVOID_FOODS_COUNT) { "[ERROR] 못 먹는 메뉴는 최소 0개 최대 2개 입력해야 합니다." }
+        require(avoidFoods.size in MIN_AVOID_FOODS_COUNT..MAX_AVOID_FOODS_COUNT) { Error.COACH_AVOID_FOOD_COUNT.getMessage() }
     }
 
     private fun getWeekFoodRecommend(): List<FoodCategory> {
