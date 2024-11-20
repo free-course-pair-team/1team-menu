@@ -3,7 +3,7 @@ package menu
 import camp.nextstep.edu.missionutils.Randoms
 
 class Category {
-    fun getRecommendFoodType() = selectedFoodCategory(Randoms.pickNumberInRange(MIN_RANDOM_NUMBER, MAX_RANDOM_NUMBER))
+    fun getRecommendFoodCategory() = selectedFoodCategory(Randoms.pickNumberInRange(MIN_RANDOM_NUMBER, MAX_RANDOM_NUMBER))
 
     private fun selectedFoodCategory(randomNumber: Int): FoodCategory {
         when (randomNumber) {

@@ -12,9 +12,9 @@ class Menu(
         outputView.lunchRecommendMessage()
         val coachesName = getCoachesName()
         val coaches = getCoaches(coachesName)
-        val weekFoodRecommend = getWeekFoodRecommend()
-        getRecommendFood(weekFoodRecommend, coaches)
-        printRecommendMenu(weekFoodRecommend, coaches)
+        val weekFoodCategory = getWeekFoodCategory()
+        getRecommendFood(weekFoodCategory, coaches)
+        printRecommendMenu(weekFoodCategory, coaches)
     }
 
     private fun getCoachesName() = retryInput {
@@ -24,17 +24,17 @@ class Menu(
     }
 
     private fun printRecommendMenu(
-        weekFoodRecommend: List<FoodCategory>, coaches: List<Coach>
+        weekFoodCategory: List<FoodCategory>, coaches: List<Coach>
     ) {
         outputView.menuRecommendMessage()
         outputView.printWeekend()
-        outputView.printCategory(weekFoodRecommend.map { it.type })
+        outputView.printCategory(weekFoodCategory.map { it.type })
         outputView.printFoodByCoaches(coaches)
         outputView.completeRecommendMessage()
     }
 
-    private fun getRecommendFood(weekFoodRecommend: List<FoodCategory>, coaches: List<Coach>) {
-        weekFoodRecommend.forEach { foodCategory ->
+    private fun getRecommendFood(weekFoodCategory: List<FoodCategory>, coaches: List<Coach>) {
+        weekFoodCategory.forEach { foodCategory ->
             coaches.forEach { coach ->
                 recommendFood(foodCategory, coach)
             }
@@ -70,13 +70,13 @@ class Menu(
         require(avoidFoods.size in MIN_AVOID_FOODS_COUNT..MAX_AVOID_FOODS_COUNT) { Error.COACH_AVOID_FOOD_COUNT.getMessage() }
     }
 
-    private fun getWeekFoodRecommend(): List<FoodCategory> {
-        val weekFoodRecommend = mutableListOf<FoodCategory>()
-        while (weekFoodRecommend.size < MIN_FOOD_RECOMMEND) {
-            val recommendFood = category.getRecommendFoodType()
-            if (isMaxDuplicate(weekFoodRecommend, recommendFood)) weekFoodRecommend.add(recommendFood)
+    private fun getWeekFoodCategory(): List<FoodCategory> {
+        val weekFoodCategory = mutableListOf<FoodCategory>()
+        while (weekFoodCategory.size < MIN_FOOD_CATEGORY) {
+            val recommendFood = category.getRecommendFoodCategory()
+            if (isMaxDuplicate(weekFoodCategory, recommendFood)) weekFoodCategory.add(recommendFood)
         }
-        return weekFoodRecommend
+        return weekFoodCategory
     }
 
     private fun isMaxDuplicate(weekFoodRecommend: List<FoodCategory>, recommendFood: FoodCategory) =
@@ -99,7 +99,7 @@ class Menu(
         private const val MAX_COACH_COUNT = 5
         private const val MIN_COACH_NAME_LENGTH = 2
         private const val MAX_COACH_NAME_LENGTH = 4
-        private const val MIN_FOOD_RECOMMEND = 5
+        private const val MIN_FOOD_CATEGORY = 5
         private const val MAX_DUPLICATE_CATEGORY = 2
         private const val SELECTED_FOOD_INDEX = 0
     }
