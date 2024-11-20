@@ -1,7 +1,7 @@
 package menu.controller
 
 import menu.model.CategoryBoard
-import menu.model.UserFoods
+import menu.model.MenuResult
 import menu.util.Validator
 import menu.view.InputView
 import menu.view.OutputView
@@ -11,21 +11,23 @@ class MenuController(
     private val inputView: InputView,
     private val validator: Validator,
     private val randomCategoryGenerator: RandomCategoryGenerator,
-    private val randomMenuGenerator: RandomMenuGenerator
+    private val randomMenuGenerator: RandomMenuGenerator,
+    private val menuResult: MenuResult
 ) {
     fun run() {
-        outputView.menuGuide()
+        outputView.printMenuGuide()
         val categoryBoard = CategoryBoard(categories = generateCategory())
         val names = inputView.inputName()
         val passNames = validateName(names)
         passNames.forEach { name ->
             val unFriendlyFoods = inputView.getUserUnfriendlyMenus(name)
             val passUnFriendlyFoods = validateFood(unFriendlyFoods)
-            UserFoods(name = name, unfriendlyFood = passUnFriendlyFoods)
-            pickMenu(categoryBoard, passUnFriendlyFoods = passUnFriendlyFoods)
+            val menu = pickMenu(categoryBoard, passUnFriendlyFoods = passUnFriendlyFoods)
+            menuResult.addUserMenus(name, menu)
         }
 
-        outputView.recommendMenu(categoryBoard)
+        outputView.printRecommendMenu(categoryBoard)
+        outputView.printMenuResult(menuResult)
     }
 
     fun validateName(names: String): List<String> {
