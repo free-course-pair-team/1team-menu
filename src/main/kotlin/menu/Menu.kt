@@ -10,20 +10,21 @@ class Menu(
 ) {
     fun start() {
         outputView.lunchRecommendMessage()
-        val coachesName = retryInput {
-            val coachesInput = inputView.readCoachNames()
-            validateCoachesName(coachesInput)
-            coachesInput
-        }
+        val coachesName = getCoachesName()
         val coaches = getCoaches(coachesName)
         val weekFoodRecommend = getWeekFoodRecommend()
         getRecommendFood(weekFoodRecommend, coaches)
         printRecommendMenu(weekFoodRecommend, coaches)
     }
 
+    private fun getCoachesName() = retryInput {
+        val coachesInput = inputView.readCoachNames()
+        validateCoachesName(coachesInput)
+        coachesInput
+    }
+
     private fun printRecommendMenu(
-        weekFoodRecommend: List<FoodCategory>,
-        coaches: List<Coach>
+        weekFoodRecommend: List<FoodCategory>, coaches: List<Coach>
     ) {
         outputView.menuRecommendMessage()
         outputView.printWeekend()
@@ -73,12 +74,13 @@ class Menu(
         val weekFoodRecommend = mutableListOf<FoodCategory>()
         while (weekFoodRecommend.size < MIN_FOOD_RECOMMEND) {
             val recommendFood = category.getRecommendFoodType()
-            if (weekFoodRecommend.count { it == recommendFood } < MAX_DUPLICATE_CATEGORY) {
-                weekFoodRecommend.add(recommendFood)
-            }
+            if (isMaxDuplicate(weekFoodRecommend, recommendFood)) weekFoodRecommend.add(recommendFood)
         }
         return weekFoodRecommend
     }
+
+    private fun isMaxDuplicate(weekFoodRecommend: List<FoodCategory>, recommendFood: FoodCategory) =
+        weekFoodRecommend.count { it == recommendFood } < MAX_DUPLICATE_CATEGORY
 
     private fun getFoodByCountry(foodCategory: FoodCategory): String {
         return when (foodCategory) {
