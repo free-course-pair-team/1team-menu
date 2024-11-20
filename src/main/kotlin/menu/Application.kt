@@ -2,6 +2,7 @@ package menu
 
 import menu.controller.MenuController
 import menu.controller.RandomCategoryGenerator
+import menu.controller.RandomMenuGenerator
 import menu.util.Validator
 import menu.view.InputView
 import menu.view.OutputView
@@ -12,6 +13,7 @@ fun main() {
     val outputView = OutputView()
     val inputView = InputView()
     val validator = Validator()
-    val randomMenuGenerator = RandomCategoryGenerator()
-    MenuController(outputView,inputView,validator, randomMenuGenerator).run()
+    val randomCategoryGenerator = RandomCategoryGenerator()
+    val randomMenuController = RandomMenuGenerator()
+    MenuController(outputView,inputView,validator, randomCategoryGenerator,randomMenuController).run()
 }
