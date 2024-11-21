@@ -23,13 +23,11 @@ class OutputView {
 
     fun printMenuResult(menuResult: MenuResult) {
         val menuResult = menuResult.getMenuResult()
-        val users = menuResult.keys
-        println(users)
-        users.forEach { user ->
-            val index = menuResult.get(user)?.keys?.sorted()
-            val menus = menuResult.get(user)
-            print("[ ${user}")
-            index?.forEach { idx -> print(" | ${menus?.get(idx)}") }
+
+        menuResult.entries.forEach { entry ->
+
+            print("[ ${entry.key}")
+            entry.value.joinToString(" | ")
             print(" ]\n")
         }
         println("\n추천을 완료했습니다.")
