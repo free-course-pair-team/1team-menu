@@ -13,13 +13,10 @@ class RandomMenuGenerator {
     )
 
     fun generatorFood(category: String, passUnFriendlyFoods: Set<String>, selectedFood: Set<String>): String {
-        val value = Randoms.shuffle(
-            (menuCategory.get(category)?.subtract(passUnFriendlyFoods))?.subtract(selectedFood)?.toList()
-        )[0]
-//        println(passUnFriendlyFoods)
-        println(
-            (menuCategory.get(category)?.subtract(passUnFriendlyFoods)?.subtract(selectedFood))
-        )
+        val shuffledList = Randoms.shuffle(menuCategory.get(category)?.toList())
+        val subtractedMenus =
+            (shuffledList?.subtract(passUnFriendlyFoods))?.subtract(selectedFood)?.toList()
+        val value = subtractedMenus?.get(0)!!
         return value
     }
 
