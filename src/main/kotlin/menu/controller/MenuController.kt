@@ -20,15 +20,30 @@ class MenuController(
         val categoryBoard = CategoryBoard(categories = generateCategory())
         val names = inputView.inputName()
         val passNames = validateName(names)
+        val unFriendlyFoodsBoard = mutableMapOf<String, Set<String>>()
         passNames.forEach { name ->
             val unFriendlyFoods = inputView.getUserUnfriendlyMenus(name)
             val passUnFriendlyFoods = validateFood(unFriendlyFoods)
-            val menu = pickMenu(categoryBoard, passUnFriendlyFoods = passUnFriendlyFoods)
-            menuResult.addUserMenus(name, menu)
+            unFriendlyFoodsBoard.set(name, passUnFriendlyFoods)
+
         }
+        dailyPickMenu(categoryBoard, passNames, unFriendlyFoodsBoard)
 
         outputView.printRecommendMenu(categoryBoard)
         outputView.printMenuResult(menuResult)
+    }
+
+    fun dailyPickMenu(
+        categoryBoard: CategoryBoard,
+        passNames: List<String>,
+        passInFriendlyBoard: MutableMap<String, Set<String>>
+    ) {
+        //새로운 코드
+        categoryBoard.categories.forEach {
+            passNames.forEach { name ->
+                
+            }
+        }
     }
 
     fun validateName(names: String): List<String> {

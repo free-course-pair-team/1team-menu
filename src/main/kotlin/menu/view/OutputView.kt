@@ -23,9 +23,13 @@ class OutputView {
 
     fun printMenuResult(menuResult: MenuResult) {
         val menuResult = menuResult.getMenuResult()
-        menuResult.keys.forEach {
-            print("[ ${it}")
-            val set = menuResult.get(it)?.forEach { food -> print(" | ${food}") }
+        val users = menuResult.keys
+        println(users)
+        users.forEach { user ->
+            val index = menuResult.get(user)?.keys?.sorted()
+            val menus = menuResult.get(user)
+            print("[ ${user}")
+            index?.forEach { idx -> print(" | ${menus?.get(idx)}") }
             print(" ]\n")
         }
         println("\n추천을 완료했습니다.")
