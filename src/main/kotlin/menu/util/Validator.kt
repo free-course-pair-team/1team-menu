@@ -22,6 +22,7 @@ class Validator {
             require(name.size <= 2) { "기피 음식은 최대 2까지 가능합니다" }
         } else {
             require(input.all { it.isLetter() })
+            name.add(input)
         }
 
         return name.toSet()

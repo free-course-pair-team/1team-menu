@@ -2,6 +2,7 @@ package menu.controller
 
 import menu.model.CategoryBoard
 import menu.model.MenuResult
+import menu.model.Week
 import menu.util.Validator
 import menu.view.InputView
 import menu.view.OutputView
@@ -43,13 +44,24 @@ class MenuController(
         return randomCategoryGenerator.generateRandomCategory()
     }
 
-    fun pickMenu(categoryBoard: CategoryBoard, passUnFriendlyFoods: Set<String>): Set<String> {
+    fun pickMenu(categoryBoard: CategoryBoard, passUnFriendlyFoods: Set<String>): Map<Int, String> {
         var menus = mutableSetOf<String>()
-        categoryBoard.categories.forEach { foodCategory ->
+        var test =
+            mutableMapOf<Int, String>(
+                Week.MON.index to "",
+                Week.THU.index to "",
+                Week.WED.index to "",
+                Week.TUE.index to "",
+                Week.FRI.index to ""
+            )
+        categoryBoard.categories.forEachIndexed { index, foodCategory ->
             val pickFood = randomMenuGenerator.generatorFood(foodCategory, passUnFriendlyFoods, menus)
             menus.add(pickFood)
+            test.set(index, pickFood)
         }
-        return menus
+
+
+        return test
     }
 
 }
