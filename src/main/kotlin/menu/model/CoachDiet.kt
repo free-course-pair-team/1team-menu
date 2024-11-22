@@ -1,13 +1,23 @@
 package menu.model
 
-class CoachDiet(private val coach: Coach) {
+import menu.util.Random
+
+class CoachDiet(
+    private val coach: Coach,
+    private val randomGenerator: Random,
+) {
     private val diet = mutableListOf<String>()
 
-    fun addMeal(meal: String) {
-        if (!checkDuplicateMeal(meal)) diet.add(meal)
+    fun setCoachDiet(category: Category) {
+        var c = randomGenerator.createMenu(category)
+        while (checkDuplicateDiet(c)) {
+            c = randomGenerator.createMenu(category)
+        }
+        diet.add(c)
     }
 
-    private fun checkDuplicateMeal(meal: String): Boolean {
+
+    private fun checkDuplicateDiet(meal: String): Boolean {
         diet.find { it == meal } ?: return false
         return true
     }

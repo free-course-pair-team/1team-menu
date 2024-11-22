@@ -12,4 +12,5 @@ class Random {
 
     fun createMenu(category: Category) =
         Randoms.shuffle(category.menu)[0]
+
 }

@@ -6,6 +6,10 @@ class OutputView {
         println(PRINT_SERVICE_MESSAGE)
     }
 
+    fun printResult(coachDietMsg: String) {
+        println(coachDietMsg)
+    }
+
 
 
     companion object {
