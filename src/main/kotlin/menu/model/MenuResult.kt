@@ -3,12 +3,12 @@ package menu.model
 class MenuResult {
     private val menuResult = mutableMapOf<String, MutableList<String>>()
 
+    fun initializeUser(name: String) {
+        menuResult.set(name, mutableListOf())
+    }
+
     fun addUserMenus(name: String, menu: String) {
-        if (name in menuResult.keys) {
-            menuResult.get(name)?.add(menu)
-        } else {
-            menuResult.set(name, mutableListOf(menu))
-        }
+        menuResult.get(name)?.add(menu)
     }
 
     fun getMenuResult(): Map<String, MutableList<String>> {
