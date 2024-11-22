@@ -27,7 +27,6 @@ class MenuController(
 
         }
         dailyPickMenu(categoryBoard, passNames, unFriendlyFoodsBoard)
-        println(menuResult.getMenuResult())
         outputView.printRecommendMenu(categoryBoard)
         outputView.printMenuResult(menuResult)
     }
@@ -38,18 +37,16 @@ class MenuController(
         passUnFriendlyBoard: MutableMap<String, Set<String>>
     ) {
         val selectedFoodBoard = mutableMapOf<String, MutableSet<String>>()
-        if (selectedFoodBoard.isNotEmpty() && passUnFriendlyBoard.isNotEmpty()) {
-            //새로운 코드
-            categoryBoard.categories.forEach { category ->
-                passNames.forEach { name ->
-                    val pickedFood = randomMenuGenerator.generatorFood(
-                        category,
-                        passUnFriendlyBoard.get(name)!!,
-                        selectedFoodBoard.get(name)!!
-                    )
-                    selectedFoodBoard.get(name)?.add(pickedFood)
-                    menuResult.addUserMenus(name, pickedFood)
-                }
+        //새로운 코드
+        categoryBoard.categories.forEach { category ->
+            passNames.forEach { name ->
+                val pickedFood = randomMenuGenerator.generatorFood(
+                    category,
+                    passUnFriendlyBoard.get(name) ?: emptySet(),
+                    selectedFoodBoard.get(name) ?: emptySet()
+                )
+                selectedFoodBoard.get(name)?.add(pickedFood)
+                menuResult.addUserMenus(name, pickedFood)
             }
         }
     }
