@@ -16,7 +16,7 @@ class RandomMenuGenerator {
         val shuffledList = Randoms.shuffle(menuCategory.get(category)?.toList())
         val subtractedMenus =
             (shuffledList?.subtract(passUnFriendlyFoods))?.subtract(selectedFood)?.toList()
-        val value = subtractedMenus?.get(0)!!
+        val value = subtractedMenus?.get(0) ?: ""
         return value
     }
 
