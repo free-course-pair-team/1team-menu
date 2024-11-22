@@ -2,6 +2,7 @@ package menu.controller
 
 import menu.model.CategoryBoard
 import menu.model.MenuResult
+import menu.model.UnFriendlyFoodsBoard
 import menu.util.Validator
 import menu.view.InputView
 import menu.view.OutputView
@@ -12,37 +13,42 @@ class MenuController(
     private val validator: Validator,
     private val randomCategoryGenerator: RandomCategoryGenerator,
     private val randomMenuGenerator: RandomMenuGenerator,
-    private val menuResult: MenuResult
+    private val menuResult: MenuResult,
+    private val unFriendlyFoodsBoard: UnFriendlyFoodsBoard
 ) {
     fun run() {
         outputView.printMenuGuide()
         val categoryBoard = CategoryBoard(categories = generateCategory())
         val names = inputView.inputName()
         val passNames = validateName(names)
-        val unFriendlyFoodsBoard = mutableMapOf<String, Set<String>>()
-        passNames.forEach { name ->
-            val unFriendlyFoods = inputView.getUserUnfriendlyMenus(name)
-            val passUnFriendlyFoods = validateFood(unFriendlyFoods)
-            unFriendlyFoodsBoard.set(name, passUnFriendlyFoods)
 
-        }
+        addUnfriendlyFood(passNames, unFriendlyFoodsBoard)
         dailyPickMenu(categoryBoard, passNames, unFriendlyFoodsBoard)
         outputView.printRecommendMenu(categoryBoard)
         outputView.printMenuResult(menuResult)
     }
 
+    fun addUnfriendlyFood(passNames: List<String>, unFriendlyFoodsBoard: UnFriendlyFoodsBoard) {
+        passNames.forEach { name ->
+            val unFriendlyFoods = inputView.getUserUnfriendlyMenus(name)
+            val passUnFriendlyFoods = validateFood(unFriendlyFoods)
+            unFriendlyFoodsBoard.setUserUnFriendlyFoods(name, passUnFriendlyFoods)
+            menuResult.initializeUser(name)
+        }
+    }
+
     fun dailyPickMenu(
         categoryBoard: CategoryBoard,
         passNames: List<String>,
-        passUnFriendlyBoard: MutableMap<String, Set<String>>
+        passUnFriendlyBoard: UnFriendlyFoodsBoard
     ) {
         val selectedFoodBoard = mutableMapOf<String, MutableSet<String>>()
-        //새로운 코드
+
         categoryBoard.categories.forEach { category ->
             passNames.forEach { name ->
                 val pickedFood = randomMenuGenerator.generatorFood(
                     category,
-                    passUnFriendlyBoard.get(name) ?: emptySet(),
+                    passUnFriendlyBoard.getUserUnFriendlyFoods(name),
                     selectedFoodBoard.get(name) ?: emptySet()
                 )
                 selectedFoodBoard.get(name)?.add(pickedFood)
