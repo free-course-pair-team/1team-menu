@@ -25,9 +25,8 @@ class OutputView {
         val menuResult = menuResult.getMenuResult()
 
         menuResult.entries.forEach { entry ->
-
-            print("[ ${entry.key}")
-            entry.value.joinToString(" | ")
+            print("[ ${entry.key} | ")
+            print("${entry.value.joinToString(" | ")}")
             print(" ]\n")
         }
         println("\n추천을 완료했습니다.")
